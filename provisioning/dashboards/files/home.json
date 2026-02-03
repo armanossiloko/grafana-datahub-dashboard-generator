@@ -1,0 +1,31 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 2, "w": 3, "x": 0, "y": 0 },
+      "id": 1,
+      "panels": [],
+      "title": "",
+      "transparent": true,
+      "type": "grafana-datahub-dashboard-generator"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": { "hidden": true },
+  "timezone": "browser",
+  "title": "Home",
+  "uid": "dashboard-generator-home",
+  "version": 1,
+  "weekStart": ""
+}

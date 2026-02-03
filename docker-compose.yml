@@ -1,0 +1,31 @@
+# Local Grafana + Datahub Dashboard Generator plugin for testing
+# Usage:
+#   1. Build the plugin:  npm run build   (required — dist/ must exist)
+#   2. Start:             docker-compose up -d
+#   3. Open:              http://localhost:3000  (no login required)
+#   4. You land on the Home dashboard with the "Create Service Dashboard" button — click it.
+# If the panel doesn't appear: run npm run build, then docker-compose down && docker-compose up -d
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-datahub-dashboard-generator-test
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-datahub-dashboard-generator
+      # Anonymous access: open Grafana without logging in
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Editor
+      # Use the provisioned "Home" dashboard (with the Create Service Dashboard button) as the default landing page
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/files/home.json
+    volumes:
+      # Mount the built plugin (run npm run build first).
+      # No named volume on /var/lib/grafana so this mount is visible to Grafana.
+      - ./dist:/var/lib/grafana/plugins/grafana-datahub-dashboard-generator
+      # Provision the Home dashboard (single panel = Create Service Dashboard button) and set it as default home
+      - ./provisioning:/etc/grafana/provisioning
+    restart: unless-stopped

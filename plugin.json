@@ -1,0 +1,24 @@
+{
+  "type": "panel",
+  "name": "DataHub Dashboard Generator",
+  "id": "grafana-datahub-dashboard-generator",
+  "info": {
+    "description": "Creates pre-configured Service dashboards via one-click button",
+    "author": {
+      "name": "Grafana"
+    },
+    "keywords": ["dashboard", "generator", "service"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [],
+    "screenshots": [],
+    "version": "1.0.0",
+    "updated": "2025-02-03"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=10.0.0",
+    "plugins": []
+  }
+}
