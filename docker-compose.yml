@@ -2,9 +2,10 @@
 # Usage:
 #   1. Build the plugin:  npm run build   (required — dist/ must exist)
 #   2. Start:             docker-compose up -d
-#   3. Open:              http://localhost:3000  (no login required)
-#   4. You land on the Home dashboard with the "Create Service Dashboard" button — click it.
-# If the panel doesn't appear: run npm run build, then docker-compose down && docker-compose up -d
+#   3. Restart Grafana so it loads the new plugin:  docker-compose restart grafana
+#   4. Open:              http://localhost:3000  (no login required). Hard-refresh (Ctrl+Shift+R) to avoid browser cache.
+#   5. You land on the Home dashboard — use the panel (title, site, uiObject, Create).
+# If the panel doesn't show the latest UI: npm run build, then docker-compose restart grafana, then hard-refresh the browser.
 
 services:
   grafana:

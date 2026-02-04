@@ -1,14 +1,20 @@
+export interface BuildDashboardOptions {
+  title: string;
+  siteId: string;
+  uiObject: string;
+}
+
 /**
  * Builds the dashboard JSON for POST /api/dashboards/db
- * Title: Service Dashboard {YYYY-MM-DD}
+ * Uses provided title and adds templating variables siteId and uiObject.
  * Tags: generated, service
  * Refresh: 30s, Timezone: browser
  * Panels: Request Rate (timeseries), Error Rate (timeseries)
  */
-export function buildServiceDashboardJson(): { dashboard: object; overwrite: boolean } {
-  const now = new Date();
-  const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
-  const title = `Service Dashboard ${dateStr}`;
+export function buildServiceDashboardJson(
+  options: BuildDashboardOptions
+): { dashboard: object; overwrite: boolean } {
+  const { title, siteId, uiObject } = options;
 
   // Use a generic Prometheus datasource; Grafana will use the default or first Prometheus
   const prometheusDatasource = { type: 'prometheus', uid: 'prometheus' };
@@ -21,6 +27,30 @@ export function buildServiceDashboardJson(): { dashboard: object; overwrite: boo
     timezone: 'browser',
     schemaVersion: 38,
     refresh: '30s',
+    templating: {
+      list: [
+        {
+          name: 'siteId',
+          type: 'custom',
+          query: siteId,
+          current: { selected: true, text: siteId, value: siteId },
+          options: [{ selected: true, text: siteId, value: siteId }],
+          hide: 2,
+          label: 'Site',
+          skipUrlSync: false,
+        },
+        {
+          name: 'uiObject',
+          type: 'custom',
+          query: uiObject,
+          current: { selected: true, text: uiObject, value: uiObject },
+          options: [{ selected: true, text: uiObject, value: uiObject }],
+          hide: 2,
+          label: 'UI Object',
+          skipUrlSync: false,
+        },
+      ],
+    },
     panels: [
       {
         id: 1,
