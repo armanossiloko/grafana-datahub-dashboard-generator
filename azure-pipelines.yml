@@ -1,0 +1,81 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+  paths:
+    include:
+      - 'azure-pipelines.yml'
+      - 'src/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.json'
+      - 'rollup.config.mjs'
+      - 'scripts/**'
+      - 'plugin.json'
+      - 'img/**'
+      - 'provisioning/**'
+
+variables:
+  nodeVersion: '20.x'
+  pluginId: 'grafana-datahub-dashboard-generator'
+
+stages:
+  - stage: Build
+    displayName: 'Build and package'
+    jobs:
+      - job: BuildPlugin
+        displayName: 'Build plugin and create zip'
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: NodeTool@0
+            displayName: 'Use Node.js $(nodeVersion)'
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - task: Cache@2
+            displayName: 'Cache node_modules'
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              path: $(Build.SourcesDirectory)/node_modules
+            condition: eq(variables['Agent.OS'], 'Linux')
+
+          - script: |
+              npm ci
+            displayName: 'Install dependencies'
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - script: |
+              npm run build
+            displayName: 'Build plugin'
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - script: |
+              PLUGIN_VERSION=$(node -p "require('./package.json').version")
+              echo "##vso[task.setvariable variable=PluginVersion;isOutput=true]$PLUGIN_VERSION"
+              echo "Plugin version: $PLUGIN_VERSION"
+            displayName: 'Read plugin version'
+            name: version
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - script: |
+              PLUGIN_VERSION=$(node -p "require('./package.json').version")
+              ZIP_NAME="$(pluginId)-${PLUGIN_VERSION}.zip"
+              echo "Creating $ZIP_NAME (Grafana expects zip root = plugin id folder)"
+              mkdir -p staging/$(pluginId)
+              cp -r dist/* staging/$(pluginId)/
+              cd staging && zip -r "../${ZIP_NAME}" $(pluginId)
+              cd ..
+              echo "##vso[task.setvariable variable=ZipName;isOutput=true]${ZIP_NAME}"
+              echo "##vso[task.setvariable variable=ZipPath;isOutput=true]$(Build.SourcesDirectory)/${ZIP_NAME}"
+            displayName: 'Zip plugin for Grafana'
+            name: zip
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish plugin zip'
+            inputs:
+              targetPath: '$(Build.SourcesDirectory)/$(pluginId)-$(version.PluginVersion).zip'
+              artifact: 'grafana-plugin'
+              publishLocation: 'pipeline'
