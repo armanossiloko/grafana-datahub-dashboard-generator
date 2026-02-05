@@ -13,6 +13,9 @@ interface ApiResponse {
   message?: string;
 }
 
+/** Width of all input/select controls (in character units). Edit this to change control width. */
+const INPUT_CONTROL_WIDTH = 40;
+
 /** Mock site options for the dropdown (replace with real API later) */
 const MOCK_SITES = [
   { value: 'site-1', label: 'Site 1' },
@@ -55,6 +58,14 @@ export const SimplePanel: React.FC<PanelProps<DashboardGeneratorOptions>> = () =
     }
   };
 
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    marginBottom: theme.spacing(0.5),
+    fontSize: theme.typography.bodySmall.fontSize,
+    fontWeight: theme.typography.fontWeightMedium,
+    color: theme.colors.text.primary,
+  };
+
   return (
     <div
       style={{
@@ -65,25 +76,43 @@ export const SimplePanel: React.FC<PanelProps<DashboardGeneratorOptions>> = () =
         padding: theme.spacing(2),
       }}
     >
-      <Input
-        value={title}
-        onChange={(e) => setTitle(e.currentTarget.value)}
-        placeholder="Dashboard title"
-        width={24}
-      />
-      <Select
-        value={MOCK_SITES.find((s) => s.value === siteId) ?? null}
-        options={MOCK_SITES}
-        onChange={(v) => setSiteId(v?.value ?? '')}
-        width={20}
-        placeholder="Select site"
-      />
-      <Input
-        value={uiObject}
-        onChange={(e) => setUiObject(e.currentTarget.value)}
-        placeholder="UI Object Full Path"
-        width={20}
-      />
+      <div>
+        <label style={labelStyle} htmlFor="dashboard-title-input">
+          Dashboard title
+        </label>
+        <Input
+          id="dashboard-title-input"
+          value={title}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+          placeholder="Dashboard title"
+          width={INPUT_CONTROL_WIDTH}
+        />
+      </div>
+      <div>
+        <label style={labelStyle} htmlFor="site-select">
+          Site
+        </label>
+        <Select
+          inputId="site-select"
+          value={MOCK_SITES.find((s) => s.value === siteId) ?? null}
+          options={MOCK_SITES}
+          onChange={(v) => setSiteId(v?.value ?? '')}
+          width={INPUT_CONTROL_WIDTH}
+          placeholder="Select site"
+        />
+      </div>
+      <div>
+        <label style={labelStyle} htmlFor="ui-object-input">
+          UI Object full path
+        </label>
+        <Input
+          id="ui-object-input"
+          value={uiObject}
+          onChange={(e) => setUiObject(e.currentTarget.value)}
+          placeholder="UI Object full path"
+          width={INPUT_CONTROL_WIDTH}
+        />
+      </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           size="md"
