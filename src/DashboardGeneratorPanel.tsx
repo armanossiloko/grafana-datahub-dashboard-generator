@@ -23,7 +23,7 @@ const MOCK_SITES = [
   { value: 'site-3', label: 'Site 3' },
 ];
 
-export const SimplePanel: React.FC<PanelProps<DashboardGeneratorOptions>> = () => {
+export const DashboardGeneratorPanel: React.FC<PanelProps<DashboardGeneratorOptions>> = () => {
   const theme = useTheme2();
   const [title, setTitle] = useState('');
   const [siteId, setSiteId] = useState<string>(MOCK_SITES[0]?.value ?? '');

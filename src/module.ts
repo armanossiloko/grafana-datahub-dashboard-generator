@@ -1,4 +1,4 @@
 import { PanelPlugin } from '@grafana/data';
-import { SimplePanel } from './SimplePanel';
+import { DashboardGeneratorPanel } from './DashboardGeneratorPanel';
 
-export const plugin = new PanelPlugin(SimplePanel);
+export const plugin = new PanelPlugin(DashboardGeneratorPanel);
