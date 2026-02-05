@@ -7,13 +7,57 @@
   "liveNow": false,
   "panels": [
     {
-      "collapsed": false,
-      "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 0 },
+      "id": 2,
+      "options": {
+        "content": "# Welcome to Grafana\n\nYour central place for metrics, logs, and observability.",
+        "mode": "markdown"
+      },
+      "title": "",
+      "type": "text",
+      "transparent": true
+    },
+    {
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 4 },
+      "id": 3,
+      "options": {
+        "content": "## Need help?\n\n- [Documentation](https://grafana.com/docs/grafana/latest/)\n- [Getting started](https://grafana.com/docs/grafana/latest/getting-started/getting-started/)\n- [Configuration](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/)\n- [Troubleshooting](https://grafana.com/docs/grafana/latest/troubleshooting/)\n- [Community forums](https://community.grafana.com/)\n- [Support](https://grafana.com/support/)",
+        "mode": "markdown"
+      },
+      "title": "Need help?",
+      "type": "text",
+      "transparent": true
+    },
+    {
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 4 },
+      "id": 4,
+      "options": {
+        "content": "## Tips & shortcuts\n\n- **Ctrl+S** — Save dashboard\n- **Ctrl+F** — Open dashboard finder\n- **Ctrl+H** — Hide/show row controls\n- **Escape** — Exit fullscreen or edit mode\n- **Click** legend name — Focus single series\n- **Drag** panel title — Move panel",
+        "mode": "markdown"
+      },
+      "title": "Tips & shortcuts",
+      "type": "text",
+      "transparent": true
+    },
+    {
+      "gridPos": { "h": 9, "w": 6, "x": 0, "y": 10 },
       "id": 1,
       "panels": [],
       "title": "",
       "transparent": true,
-      "type": "grafana-datahub-dashboard-generator"
+      "type": "grafana-datahub-dashboard-generator",
+      "collapsed": false
+    },
+    {
+      "gridPos": { "h": 9, "w": 18, "x": 6, "y": 10 },
+      "id": 5,
+      "options": {
+        "content": "## Quick actions\n\n- Use **Explore** (compass icon) to ad-hoc query your datasources\n- **Dashboards** → **New** → **New dashboard** to create a blank dashboard\n- **Alerting** to configure alerts and contact points\n- Use the **Dashboard generator** panel on the left to create a pre-configured Service dashboard from this plugin.",
+        "mode": "markdown"
+      },
+      "title": "Quick actions",
+      "type": "text",
+      "transparent": true
     }
   ],
   "refresh": "",
